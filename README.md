@@ -5,11 +5,13 @@ Progressive Web App zum Planen und Tracken von Gym-Training (Push/Pull), komplet
 ## Struktur
 
 - `index.html` – App-Rahmen
-- `styles.css` – Design (hell/dunkel automatisch)
+- `styles.css` – Design (schwarzes Kartendesign)
 - `js/catalog.js` – Übungskatalog (200 Übungen) und Standard-Gewichtsstufen
 - `js/db.js` – Speicherung (IndexedDB + localStorage-Kopie)
 - `js/progression.js` – Vorschlagslogik, austauschbar über `STRATEGIES`
-- `js/app.js` – Oberfläche und App-Logik
+- `js/core.js` – Datenmodell, Kalender- und Trainingslogik
+- `js/ui.js` – Oberfläche (Dashboard, Training, Statistiken)
+- `fonts/` – Schrift Montserrat (SIL Open Font License)
 - `sw.js`, `manifest.webmanifest`, `icons/` – Offline-Fähigkeit und Installation
 
 ## Veröffentlichen über GitHub Pages

@@ -1,6 +1,6 @@
 /* Service Worker: App offline verfügbar machen.
    Bei jeder neuen Version CACHE hochzählen, damit iPhones die Aktualisierung laden. */
-const CACHE = 'trainingslog-v1.0.0';
+const CACHE = 'trainingslog-v2.0.0';
 const ASSETS = [
   './',
   './index.html',
@@ -9,7 +9,12 @@ const ASSETS = [
   './js/catalog.js',
   './js/db.js',
   './js/progression.js',
-  './js/app.js',
+  './js/core.js',
+  './js/ui.js',
+  './fonts/montserrat-500.woff2',
+  './fonts/montserrat-600.woff2',
+  './fonts/montserrat-700.woff2',
+  './fonts/montserrat-800.woff2',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/apple-touch-icon.png'
@@ -31,6 +36,16 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET' || new URL(req.url).origin !== location.origin) return;
+  // Seite selbst: zuerst Netz (schnelle Updates), offline aus dem Cache
+  if (req.mode === 'navigate') {
+    e.respondWith(
+      fetch(req).then(res => {
+        if (res && res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put('./index.html', copy)); }
+        return res;
+      }).catch(() => caches.match('./index.html'))
+    );
+    return;
+  }
   e.respondWith(
     caches.open(CACHE).then(async cache => {
       const cached = await cache.match(req, { ignoreSearch: true });
